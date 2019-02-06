@@ -1,6 +1,5 @@
 export default {
     template: `
-    // this is where html goes
     <div class="jumbotron roku-jumbotron">
             <h1 class="display-4">Welcome to Flashback!</h1>
             <p class="lead">Before revisiting your favourite movies, tv shows or music from yesteryear, please log in with a valid username and password.</p>
@@ -40,13 +39,24 @@ export default {
 
             //check against our mock account creds
             if(this.input.username !="" && this.input.password !="") {
-                //do a fetch here and check creds on the back end
-                let url = `./includes/index.php?username=${this.input.username}&&=${this.input.password}`;
 
-                fetch(url)
+                //create some form data to do a POST request
+                let formData = new FormData();
+
+                formData.append("username", this.input.username); //grab what ever is in the input area for
+                formData.append("password", this.input.password); //username and password and make it a FormData
+
+
+                //do a fetch here and check creds on the back end
+                let url = `./admin/admin_login.php`;
+
+                fetch(url, {
+                    method: 'POST',
+                    body: formData
+                })
                     .then(res => res.json())
                     .then(data => {
-                        if (data[0] == "false") {
+                        if (data == "Login Failed") {
                             //if te php file returns a failure, try again
                             console.log("authentication failed, try again");
                         }else{

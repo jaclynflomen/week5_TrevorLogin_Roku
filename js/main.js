@@ -68,11 +68,15 @@ const vm = new Vue ({
     data: {
         message: "Sup from vue!",
         authenticated : false,
+        administrator: false,
         
         mockAccount : {
             username: "jrf",
             password: "123"
-        }
+        },
+
+        user: [],
+        curremtUser: {}
     },
 
     created: function(){
@@ -93,7 +97,13 @@ const vm = new Vue ({
         },
 
         logout(){
+            this.$router.push({path: "/login"});
             this.authenticated = false;
+        },
+
+        setCurrentUser(user) {
+            //stub
+            console.log('hit setCurrentUser');
         }
     },
 
